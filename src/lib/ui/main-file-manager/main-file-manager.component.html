@@ -1,0 +1,174 @@
+<div class="ngx-file-page-container">
+  <mat-drawer-container>
+    <mat-drawer-content [class.loaded]="initLoaded">
+      <div
+        class="bulk-actions-container"
+        [class.hidden]="($BulkSelected | async).length < 1"
+        *ngIf="initLoaded"
+      >
+        <bulk-actions
+          [bulkActions]="this.bulkActions"
+          [bulkSelected$]="this.$BulkSelected"
+          (clearSelected)="this.ClearBulkSelected()"
+        >
+        </bulk-actions>
+      </div>
+      <div class="folder-actions-container">
+        <main-actions [mainActions]="this.mainActions"> </main-actions>
+      </div>
+      <div class="flex-h space-between breadcrumb-container">
+        <bread-crumbs
+          [currentPath]="$CurrentPath | async"
+          (clickedCrumb)="this.onClickCrumb($event)"
+          [config]="config"
+        >
+        </bread-crumbs>
+        <div class="flex-h">
+          <mat-progress-spinner
+            *ngIf="$hasSending | async"
+            mode="indeterminate"
+            [diameter]="40"
+            color="primary"
+          ></mat-progress-spinner>
+          <mat-progress-spinner
+            *ngIf="$hasFailed | async"
+            mode="determinate"
+            [diameter]="40"
+            color="warn"
+            [value]="100"
+          ></mat-progress-spinner>
+          <div
+            class="mat-elevation-z8 expander-container has-pointer mat-table"
+            (click)="isFileDetailsOpen = !isFileDetailsOpen"
+          >
+            <mat-icon
+              matTooltip="View File Details"
+              class="expander-icon"
+              [class.drawer-out]="isFileDetailsOpen"
+              [class.drawer-in]="!isFileDetailsOpen"
+              >expand_more</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+      <div *ngIf="enableSearch">
+        <form (submit)="searchAllDocumentsAndFolders(searchKeyword)" [formGroup]="searchForm">
+          <mat-form-field class="w-full px-2">
+            <input matInput [(ngModel)]="searchKeyword" formControlName="searchKeyword" placeholder="Search here"/>
+          </mat-form-field>
+          <mat-progress-spinner
+              *ngIf="showSearchingSpinner"
+              mode="determinate"
+              [diameter]="40"
+              color="warn"
+              [value]="100"
+            ></mat-progress-spinner>
+        </form>
+        <div *ngIf="!showSearchingSpinner&&isSearching&&seachResultDocuments.length===0&&seachResultFolders.length===0">
+          <div class="card-container">
+            <h4>Search results: </h4>
+            <mat-card >
+              <div class="document">
+                <div class="title">
+                  There are no site files/folders match your keyword.
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div class="exp-panel" *ngIf="seachResultDocuments.length>0">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Files:
+              </mat-panel-title>
+              <mat-panel-description>
+                They are results of search files.
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-card (click)="onSelectedSearchItem(document)" *ngFor="let document of seachResultDocuments|slice:0: documentsShow">
+              <div class="document">
+                <div class="title">
+                  {{document.name}}
+                </div>
+                <div class="search-item">
+                  <mat-icon class="icon-size-44 text-primary">
+                      insert_drive_file
+                  </mat-icon>
+                  <span>{{ document.fullPath }}</span>
+              </div>
+              </div>
+            </mat-card>
+            <div class="text-right">
+              <button 
+                *ngIf="documentsShow < seachResultDocuments.length"
+                (click)="documentsShow=documentsShow+10"
+                mat-raised-button>Load more</button>
+              </div>
+          </mat-expansion-panel>
+        </div>
+        <div class="exp-panel" *ngIf="seachResultFolders.length>0">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Folders:
+              </mat-panel-title>
+              <mat-panel-description>
+                They are results of search folders.
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-card (click)="onSelectedSearchItem(folder)" *ngFor="let folder of seachResultFolders|slice:0: foldersShow">
+              <div class="document">
+                <div class="title">
+                  {{folder.name}}
+                </div>
+                <div class="search-item">
+                  <mat-icon class="icon-size-44 text-primary">
+                      folder
+                  </mat-icon>
+                  <span>{{ folder.fullPath }}</span>
+                </div>
+              </div>
+            </mat-card>
+            <div class="text-right">
+              <button 
+                *ngIf="foldersShow < seachResultFolders.length"
+                (click)="foldersShow=foldersShow+10"
+                mat-raised-button>Load more</button>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </div>
+      <app-file-table
+        *ngIf="folders$ && files$"
+        [folders]="folders$ | async"
+        [files]="files$ | async"
+        [fileActions]="fileActions"
+        [folderActions]="folderActions"
+        [config]="config"
+        [$triggerClearSelected]="$triggerClearSelected"
+        (checkedChanged)="$BulkSelected.next($event)"
+        (selectedChanged)="this.onSelectedFilePath($event)"
+        (enterFolder)="this.onEnterFolder($event)"
+      >
+      </app-file-table>
+    </mat-drawer-content>
+    <mat-drawer
+      #drawer
+      [(opened)]="isFileDetailsOpen"
+      class="history-drawer"
+      mode="side"
+      position="end"
+      opened
+    >
+      <ngx-filemanager-file-details
+        [actions]="fileDetailActions"
+        [file]="SelectedFile"
+        [fileSystem]="fileSystem"
+        [config]="config"
+        (clickedDownload)="this.onDetailsClickDownload($event)"
+      >
+      </ngx-filemanager-file-details>
+    </mat-drawer>
+  </mat-drawer-container>
+</div>

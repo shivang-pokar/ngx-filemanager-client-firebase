@@ -1,0 +1,78 @@
+.heading {
+  font-family: sans-serif;
+  margin-left: 10px;
+}
+mat-drawer {
+  width: 260px;
+}
+mat-drawer-content {
+  overflow: hidden;
+}
+mat-drawer-content .loaded {
+  overflow: auto;
+}
+mat-drawer-container {
+  width: 100%;
+}
+.ngx-file-page-container {
+  height: calc(100% - 65px);
+  display: flex;
+}
+.expander-container {
+  flex-direction: row-reverse;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  cursor: pointer;
+}
+.expander-icon {
+  transition: transform 500ms;
+  font-size: 2em;
+  width: 1em;
+  height: 1em;
+}
+.bulk-actions-container {
+  position: absolute;
+  overflow: hidden;
+  height: 80px;
+  width: 100%;
+  z-index: 2;
+  transition: top 0.7s;
+  top: 0px;
+}
+
+.hidden {
+  top: -90px;
+}
+
+.drawer-out {
+  transform: rotate(-90deg);
+}
+.drawer-in {
+  transform: rotate(90deg);
+}
+.flex-h {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.space-between {
+  justify-content: space-between;
+}
+
+button.top {
+  margin-left: 10px;
+}
+.breadcrumb-container {
+  margin: 2px 0px;
+}
+
+.document {
+  cursor: pointer;
+}
+.search-item {
+  display: flex;
+  align-items: center;
+}
