@@ -1,0 +1,9 @@
+export declare function HasPrefixSlash(inputPath: string): boolean;
+export declare function TrimSlashes(inputPath: string): string;
+export declare function HasTrailingSlash(inputPath: string): boolean;
+export declare function EnsurePrefixSlash(inputPath: string): string;
+export declare function EnsureTrailingSlash(inputPath: string): string;
+export declare function EnsureAbsoluteDirectory(inputPath: string): string;
+export declare function EnsureNoTrailingSlash(inputPath: string): string;
+export declare function Add2ToPath(inputPath: string): string;
+export declare function Add2ToPathDir(inputPath: string): string;
