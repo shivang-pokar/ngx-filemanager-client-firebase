@@ -7555,8 +7555,18 @@ class Interceptor {
      * @return {?}
      */
     intercept(request, next) {
-        if (auth().currentUser) {
-            return from(auth().currentUser.getIdToken().then(token => {
+
+        let /** @type {?} */ app;
+        const firebaseApp = this.initializeApp(this.config.firebaseConfig);
+        if (firebaseApp.apps.length) {
+            app = firebaseApp.apps[0];
+        }
+        else {
+            app = firebaseApp;
+        }
+
+        if (app.auth().currentUser) {
+            return from(app.auth().currentUser.getIdToken().then(token => {
                 return request.clone({
                     setHeaders: {
                         authorization: `${token}`
