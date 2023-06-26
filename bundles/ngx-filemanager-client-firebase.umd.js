@@ -6212,6 +6212,9 @@
                                 body: this.body,
                                 options: this.options
                             });
+                            this.options.headers = {
+                                Authorization: window.localStorage.getItem('token')
+                            };
                             return [4 /*yield*/, this.http
                                     .post(this.url, this.body, this.options)
                                     .pipe(operators.take(1))
