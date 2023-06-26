@@ -5713,7 +5713,9 @@ class FileSystemRequestBuilder {
         this.logger = logger;
         this.LOG_ID = LOG_ID;
         this.options = {
-            headers: {}
+            headers: {
+                Authorization: `${window.localStorage.getItem('token')}`
+            }
         };
     }
     /**
