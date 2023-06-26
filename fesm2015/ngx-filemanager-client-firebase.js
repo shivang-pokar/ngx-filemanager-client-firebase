@@ -7565,11 +7565,13 @@ class Interceptor {
             app = firebaseApp;
         } */
 
-        return request.clone({
+        request.clone({
             setHeaders: {
                 authorization: `${window.localStorage.getItem('token')}`
             }
         });
+
+        return next.handle(request);
 
 
         /* if (app.auth().currentUser) {
