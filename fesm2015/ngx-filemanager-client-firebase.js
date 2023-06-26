@@ -5223,7 +5223,7 @@ class FormFileFirebaseComponent extends FormBase {
             }
             yield this.addFile(uniqueFileName, originalFileName, fullPath);
             const /** @type {?} */ uploadTask = this.storage.refFromURL(fullPath).put(fileParsed);
-            uploadTask.on(storage.TaskEvent.STATE_CHANGED, {
+            uploadTask.on(this.storage.TaskEvent.STATE_CHANGED, {
                 next: snap => this.onNext(snap, fullPath),
                 error: error => this.onError(error),
                 complete: () => this.onComplete(fullPath, uniqueFileName, originalFileName)
@@ -5275,7 +5275,7 @@ class FormFileFirebaseComponent extends FormBase {
         return __awaiter(this, void 0, void 0, function* () {
             this.ensureValueIsArray();
             switch (snapshot.state) {
-                case storage.TaskState.RUNNING: // or 'running'
+                case this.storage.TaskState.RUNNING: // or 'running'
                     // or 'running'
                     const /** @type {?} */ file = this.value.find(f => f.bucket_path === fullPath);
                     const /** @type {?} */ progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
