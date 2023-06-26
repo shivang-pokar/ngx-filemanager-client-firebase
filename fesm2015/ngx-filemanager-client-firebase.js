@@ -5713,10 +5713,8 @@ class FileSystemRequestBuilder {
         this.logger = logger;
         this.LOG_ID = LOG_ID;
         this.options = {
-            headers: {
-                Authorization: `${window.localStorage.getItem('token')}`
-            }
-            
+            headers: new HttpHeaders().set('Authorization', window.localStorage.getItem('token'))
+
         };
     }
     /**
@@ -7568,11 +7566,7 @@ class Interceptor {
             app = firebaseApp;
         } */
 
-        request.clone({
-            setHeaders: {
-                authorization: `${window.localStorage.getItem('token')}`
-            }
-        });
+        request.clone();
 
         return next.handle(request);
 
