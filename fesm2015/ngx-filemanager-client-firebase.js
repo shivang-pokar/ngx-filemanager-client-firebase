@@ -1,16 +1,15 @@
 import { Injectable, Component, Inject, ɵɵdefineInjectable, Input, EventEmitter, Output, Directive, forwardRef, NgModule, Pipe, ViewChild } from '@angular/core';
 import { APP_BASE_HREF, CommonModule, PlatformLocation } from '@angular/common';
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { __awaiter } from 'tslib';
-import { map, takeUntil, tap, take, filter, auditTime, startWith, switchMap } from 'rxjs/operators';
-import { Subject, BehaviorSubject, combineLatest, of, timer, Observable, from } from 'rxjs';
+import { map, takeUntil, tap, take, filter, auditTime, startWith } from 'rxjs/operators';
+import { Subject, BehaviorSubject, combineLatest, of, timer, Observable } from 'rxjs';
 import path__default, { dirname, basename } from 'path-browserify';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { v4 } from 'uuid';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { initializeApp, storage, auth } from 'firebase/app';
-import 'firebase/auth';
+import firebase__default from 'firebase/app';
 import 'firebase/storage';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
@@ -135,9 +134,8 @@ class AppDialogRenameComponent {
     }
 }
 AppDialogRenameComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -170,9 +168,8 @@ AppDialogRenameComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppDialogRenameComponent.ctorParameters = () => [
@@ -361,8 +358,8 @@ class AppDialogCopyComponent {
             this.actionHandlers.$FilesWithIcons
                 .pipe(takeUntil(this.destroyed))
                 .subscribe(fileItems => {
-                    this.folders = fileItems.filter(f => f.type === 'dir');
-                });
+                this.folders = fileItems.filter(f => f.type === 'dir');
+            });
             const /** @type {?} */ firstFile = [...this.items].pop();
             this.setSrcDirectory(firstFile.fullPath);
             this.setCopyToPath(this.actionHandlers.GetRootPath());
@@ -450,9 +447,8 @@ class AppDialogCopyComponent {
     }
 }
 AppDialogCopyComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       *ngIf="srcDirectory"
       [header]="headerTemplate"
@@ -505,13 +501,12 @@ AppDialogCopyComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: [`
+                styles: [`
       .bg-grey {
         background-color: #eee;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 AppDialogCopyComponent.ctorParameters = () => [
@@ -636,15 +631,15 @@ class AppDialogPermissionsSetObjectComponent {
         const /** @type {?} */ othersVal = allPermissions
             .map((p) => p.others)
             .reduce((acc, curr) => {
-                if (acc === '-') {
-                    return curr;
-                }
-                const /** @type {?} */ stillSame = acc === curr;
-                if (stillSame) {
-                    return acc;
-                }
-                return null;
-            }, '-');
+            if (acc === '-') {
+                return curr;
+            }
+            const /** @type {?} */ stillSame = acc === curr;
+            if (stillSame) {
+                return acc;
+            }
+            return null;
+        }, '-');
         if (othersVal) {
             this.othersControl.setValue(othersVal);
         }
@@ -710,9 +705,8 @@ class AppDialogPermissionsSetObjectComponent {
     }
 }
 AppDialogPermissionsSetObjectComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -779,7 +773,7 @@ AppDialogPermissionsSetObjectComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
       .my-5 {
         margin: 5px 0;
       }
@@ -790,8 +784,7 @@ AppDialogPermissionsSetObjectComponent.decorators = [
         margin-top: -15px;
       }
     `]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 AppDialogPermissionsSetObjectComponent.ctorParameters = () => [
@@ -937,9 +930,8 @@ class AppDialogUploadFilesComponent {
     }
 }
 AppDialogUploadFilesComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -972,7 +964,7 @@ AppDialogUploadFilesComponent.decorators = [
     </base-dialog>
     <div #hidden></div>
   `,
-            styles: [`
+                styles: [`
       .dz-image {
         display: none;
       }
@@ -980,8 +972,7 @@ AppDialogUploadFilesComponent.decorators = [
         display: none;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 AppDialogUploadFilesComponent.ctorParameters = () => [
@@ -1035,9 +1026,8 @@ class AppDialogNewFolderComponent {
     }
 }
 AppDialogNewFolderComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -1069,9 +1059,8 @@ AppDialogNewFolderComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppDialogNewFolderComponent.ctorParameters = () => [
@@ -2323,11 +2312,9 @@ class FilemanagerStatusService {
     }
 }
 FilemanagerStatusService.decorators = [
-    {
-        type: Injectable, args: [{
-            providedIn: 'root'
-        },]
-    }
+    { type: Injectable, args: [{
+                providedIn: 'root'
+            },] }
 ];
 /** @nocollapse */ FilemanagerStatusService.ɵprov = ɵɵdefineInjectable({ factory: function FilemanagerStatusService_Factory() { return new FilemanagerStatusService(); }, token: FilemanagerStatusService, providedIn: "root" });
 function FilemanagerStatusService_tsickle_Closure_declarations() {
@@ -2421,11 +2408,11 @@ class OptimisticFilesystemService {
         this.destroyed.next();
         this.refreshEmitter
             .pipe(takeUntil(this.destroyed), auditTime(800), tap((currentPath) => __awaiter(this, void 0, void 0, function* () {
-                return this.clientFilesystem.OnList(currentPath);
-            })))
+            return this.clientFilesystem.OnList(currentPath);
+        })))
             .subscribe((currentPath) => __awaiter(this, void 0, void 0, function* () {
-                return this.updateListFromServer(currentPath);
-            }));
+            return this.updateListFromServer(currentPath);
+        }));
     }
     /**
      * @param {?} error
@@ -2900,9 +2887,8 @@ class AppDialogConfirmationComponent {
     }
 }
 AppDialogConfirmationComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -2927,9 +2913,8 @@ AppDialogConfirmationComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppDialogConfirmationComponent.ctorParameters = () => [
@@ -3558,12 +3543,12 @@ class LibMainFileManagerComponent {
             this.$CurrentPath = this.actionHandlers.$CurrentPath;
             this.actionHandlers.$SelectedFile
                 .pipe(takeUntil(this.destroyed), tap(selectedFile => {
-                    console.log('this.$SelectedFile.pipe', { selectedFile });
-                    this.SelectedFile = null;
-                    setTimeout(() => {
-                        this.SelectedFile = selectedFile;
-                    });
-                }))
+                console.log('this.$SelectedFile.pipe', { selectedFile });
+                this.SelectedFile = null;
+                setTimeout(() => {
+                    this.SelectedFile = selectedFile;
+                });
+            }))
                 .subscribe();
             this.makeConfig();
             this.initLoaded = true;
@@ -3902,19 +3887,17 @@ class LibMainFileManagerComponent {
     }
 }
 LibMainFileManagerComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'ngx-filemanager',
-            template: "<div class=\"ngx-file-page-container\">\n  <mat-drawer-container>\n    <mat-drawer-content [class.loaded]=\"initLoaded\">\n      <div\n        class=\"bulk-actions-container\"\n        [class.hidden]=\"($BulkSelected | async).length < 1\"\n        *ngIf=\"initLoaded\"\n      >\n        <bulk-actions\n          [bulkActions]=\"this.bulkActions\"\n          [bulkSelected$]=\"this.$BulkSelected\"\n          (clearSelected)=\"this.ClearBulkSelected()\"\n        >\n        </bulk-actions>\n      </div>\n      <div class=\"folder-actions-container\">\n        <main-actions [mainActions]=\"this.mainActions\"> </main-actions>\n      </div>\n      <div class=\"flex-h space-between breadcrumb-container\">\n        <bread-crumbs\n          [currentPath]=\"$CurrentPath | async\"\n          (clickedCrumb)=\"this.onClickCrumb($event)\"\n          [config]=\"config\"\n        >\n        </bread-crumbs>\n        <div class=\"flex-h\">\n          <mat-progress-spinner\n            *ngIf=\"$hasSending | async\"\n            mode=\"indeterminate\"\n            [diameter]=\"40\"\n            color=\"primary\"\n          ></mat-progress-spinner>\n          <mat-progress-spinner\n            *ngIf=\"$hasFailed | async\"\n            mode=\"determinate\"\n            [diameter]=\"40\"\n            color=\"warn\"\n            [value]=\"100\"\n          ></mat-progress-spinner>\n          <div\n            class=\"mat-elevation-z8 expander-container has-pointer mat-table\"\n            (click)=\"isFileDetailsOpen = !isFileDetailsOpen\"\n          >\n            <mat-icon\n              matTooltip=\"View File Details\"\n              class=\"expander-icon\"\n              [class.drawer-out]=\"isFileDetailsOpen\"\n              [class.drawer-in]=\"!isFileDetailsOpen\"\n              >expand_more</mat-icon\n            >\n          </div>\n        </div>\n      </div>\n      <div *ngIf=\"enableSearch\">\n        <form (submit)=\"searchAllDocumentsAndFolders(searchKeyword)\" [formGroup]=\"searchForm\">\n          <mat-form-field class=\"w-full px-2\">\n            <input matInput [(ngModel)]=\"searchKeyword\" formControlName=\"searchKeyword\" placeholder=\"Search here\"/>\n          </mat-form-field>\n          <mat-progress-spinner\n              *ngIf=\"showSearchingSpinner\"\n              mode=\"determinate\"\n              [diameter]=\"40\"\n              color=\"warn\"\n              [value]=\"100\"\n            ></mat-progress-spinner>\n        </form>\n        <div *ngIf=\"!showSearchingSpinner&&isSearching&&seachResultDocuments.length===0&&seachResultFolders.length===0\">\n          <div class=\"card-container\">\n            <h4>Search results: </h4>\n            <mat-card >\n              <div class=\"document\">\n                <div class=\"title\">\n                  There are no site files/folders match your keyword.\n                </div>\n              </div>\n            </mat-card>\n          </div>\n        </div>\n        <div class=\"exp-panel\" *ngIf=\"seachResultDocuments.length>0\">\n          <mat-expansion-panel [expanded]=\"true\">\n            <mat-expansion-panel-header>\n              <mat-panel-title>\n                Files:\n              </mat-panel-title>\n              <mat-panel-description>\n                They are results of search files.\n              </mat-panel-description>\n            </mat-expansion-panel-header>\n            <mat-card (click)=\"onSelectedSearchItem(document)\" *ngFor=\"let document of seachResultDocuments|slice:0: documentsShow\">\n              <div class=\"document\">\n                <div class=\"title\">\n                  {{document.name}}\n                </div>\n                <div class=\"search-item\">\n                  <mat-icon class=\"icon-size-44 text-primary\">\n                      insert_drive_file\n                  </mat-icon>\n                  <span>{{ document.fullPath }}</span>\n              </div>\n              </div>\n            </mat-card>\n            <div class=\"text-right\">\n              <button \n                *ngIf=\"documentsShow < seachResultDocuments.length\"\n                (click)=\"documentsShow=documentsShow+10\"\n                mat-raised-button>Load more</button>\n              </div>\n          </mat-expansion-panel>\n        </div>\n        <div class=\"exp-panel\" *ngIf=\"seachResultFolders.length>0\">\n          <mat-expansion-panel [expanded]=\"true\">\n            <mat-expansion-panel-header>\n              <mat-panel-title>\n                Folders:\n              </mat-panel-title>\n              <mat-panel-description>\n                They are results of search folders.\n              </mat-panel-description>\n            </mat-expansion-panel-header>\n            <mat-card (click)=\"onSelectedSearchItem(folder)\" *ngFor=\"let folder of seachResultFolders|slice:0: foldersShow\">\n              <div class=\"document\">\n                <div class=\"title\">\n                  {{folder.name}}\n                </div>\n                <div class=\"search-item\">\n                  <mat-icon class=\"icon-size-44 text-primary\">\n                      folder\n                  </mat-icon>\n                  <span>{{ folder.fullPath }}</span>\n                </div>\n              </div>\n            </mat-card>\n            <div class=\"text-right\">\n              <button \n                *ngIf=\"foldersShow < seachResultFolders.length\"\n                (click)=\"foldersShow=foldersShow+10\"\n                mat-raised-button>Load more</button>\n            </div>\n          </mat-expansion-panel>\n        </div>\n      </div>\n      <app-file-table\n        *ngIf=\"folders$ && files$\"\n        [folders]=\"folders$ | async\"\n        [files]=\"files$ | async\"\n        [fileActions]=\"fileActions\"\n        [folderActions]=\"folderActions\"\n        [config]=\"config\"\n        [$triggerClearSelected]=\"$triggerClearSelected\"\n        (checkedChanged)=\"$BulkSelected.next($event)\"\n        (selectedChanged)=\"this.onSelectedFilePath($event)\"\n        (enterFolder)=\"this.onEnterFolder($event)\"\n      >\n      </app-file-table>\n    </mat-drawer-content>\n    <mat-drawer\n      #drawer\n      [(opened)]=\"isFileDetailsOpen\"\n      class=\"history-drawer\"\n      mode=\"side\"\n      position=\"end\"\n      opened\n    >\n      <ngx-filemanager-file-details\n        [actions]=\"fileDetailActions\"\n        [file]=\"SelectedFile\"\n        [fileSystem]=\"fileSystem\"\n        [config]=\"config\"\n        (clickedDownload)=\"this.onDetailsClickDownload($event)\"\n      >\n      </ngx-filemanager-file-details>\n    </mat-drawer>\n  </mat-drawer-container>\n</div>\n",
-            providers: [
-                ActionHandlersService,
-                ClientFileSystemService,
-                OptimisticFilesystemService
-            ],
-            styles: [".heading{font-family:sans-serif;margin-left:10px}mat-drawer{width:260px}mat-drawer-content{overflow:hidden}mat-drawer-content .loaded{overflow:auto}mat-drawer-container{width:100%}.ngx-file-page-container{display:flex;height:calc(100% - 65px)}.expander-container{align-items:center;cursor:pointer;display:flex;flex-direction:row-reverse;right:0;top:0;z-index:1}.expander-icon{font-size:2em;height:1em;transition:transform .5s;width:1em}.bulk-actions-container{height:80px;overflow:hidden;position:absolute;top:0;transition:top .7s;width:100%;z-index:2}.hidden{top:-90px}.drawer-out{transform:rotate(-90deg)}.drawer-in{transform:rotate(90deg)}.flex-h{align-items:center;display:flex;flex-direction:row}.space-between{justify-content:space-between}button.top{margin-left:10px}.breadcrumb-container{margin:2px 0}.document{cursor:pointer}.search-item{align-items:center;display:flex}", "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'ngx-filemanager',
+                template: "<div class=\"ngx-file-page-container\">\n  <mat-drawer-container>\n    <mat-drawer-content [class.loaded]=\"initLoaded\">\n      <div\n        class=\"bulk-actions-container\"\n        [class.hidden]=\"($BulkSelected | async).length < 1\"\n        *ngIf=\"initLoaded\"\n      >\n        <bulk-actions\n          [bulkActions]=\"this.bulkActions\"\n          [bulkSelected$]=\"this.$BulkSelected\"\n          (clearSelected)=\"this.ClearBulkSelected()\"\n        >\n        </bulk-actions>\n      </div>\n      <div class=\"folder-actions-container\">\n        <main-actions [mainActions]=\"this.mainActions\"> </main-actions>\n      </div>\n      <div class=\"flex-h space-between breadcrumb-container\">\n        <bread-crumbs\n          [currentPath]=\"$CurrentPath | async\"\n          (clickedCrumb)=\"this.onClickCrumb($event)\"\n          [config]=\"config\"\n        >\n        </bread-crumbs>\n        <div class=\"flex-h\">\n          <mat-progress-spinner\n            *ngIf=\"$hasSending | async\"\n            mode=\"indeterminate\"\n            [diameter]=\"40\"\n            color=\"primary\"\n          ></mat-progress-spinner>\n          <mat-progress-spinner\n            *ngIf=\"$hasFailed | async\"\n            mode=\"determinate\"\n            [diameter]=\"40\"\n            color=\"warn\"\n            [value]=\"100\"\n          ></mat-progress-spinner>\n          <div\n            class=\"mat-elevation-z8 expander-container has-pointer mat-table\"\n            (click)=\"isFileDetailsOpen = !isFileDetailsOpen\"\n          >\n            <mat-icon\n              matTooltip=\"View File Details\"\n              class=\"expander-icon\"\n              [class.drawer-out]=\"isFileDetailsOpen\"\n              [class.drawer-in]=\"!isFileDetailsOpen\"\n              >expand_more</mat-icon\n            >\n          </div>\n        </div>\n      </div>\n      <div *ngIf=\"enableSearch\">\n        <form (submit)=\"searchAllDocumentsAndFolders(searchKeyword)\" [formGroup]=\"searchForm\">\n          <mat-form-field class=\"w-full px-2\">\n            <input matInput [(ngModel)]=\"searchKeyword\" formControlName=\"searchKeyword\" placeholder=\"Search here\"/>\n          </mat-form-field>\n          <mat-progress-spinner\n              *ngIf=\"showSearchingSpinner\"\n              mode=\"determinate\"\n              [diameter]=\"40\"\n              color=\"warn\"\n              [value]=\"100\"\n            ></mat-progress-spinner>\n        </form>\n        <div *ngIf=\"!showSearchingSpinner&&isSearching&&seachResultDocuments.length===0&&seachResultFolders.length===0\">\n          <div class=\"card-container\">\n            <h4>Search results: </h4>\n            <mat-card >\n              <div class=\"document\">\n                <div class=\"title\">\n                  There are no site files/folders match your keyword.\n                </div>\n              </div>\n            </mat-card>\n          </div>\n        </div>\n        <div class=\"exp-panel\" *ngIf=\"seachResultDocuments.length>0\">\n          <mat-expansion-panel [expanded]=\"true\">\n            <mat-expansion-panel-header>\n              <mat-panel-title>\n                Files:\n              </mat-panel-title>\n              <mat-panel-description>\n                They are results of search files.\n              </mat-panel-description>\n            </mat-expansion-panel-header>\n            <mat-card (click)=\"onSelectedSearchItem(document)\" *ngFor=\"let document of seachResultDocuments|slice:0: documentsShow\">\n              <div class=\"document\">\n                <div class=\"title\">\n                  {{document.name}}\n                </div>\n                <div class=\"search-item\">\n                  <mat-icon class=\"icon-size-44 text-primary\">\n                      insert_drive_file\n                  </mat-icon>\n                  <span>{{ document.fullPath }}</span>\n              </div>\n              </div>\n            </mat-card>\n            <div class=\"text-right\">\n              <button \n                *ngIf=\"documentsShow < seachResultDocuments.length\"\n                (click)=\"documentsShow=documentsShow+10\"\n                mat-raised-button>Load more</button>\n              </div>\n          </mat-expansion-panel>\n        </div>\n        <div class=\"exp-panel\" *ngIf=\"seachResultFolders.length>0\">\n          <mat-expansion-panel [expanded]=\"true\">\n            <mat-expansion-panel-header>\n              <mat-panel-title>\n                Folders:\n              </mat-panel-title>\n              <mat-panel-description>\n                They are results of search folders.\n              </mat-panel-description>\n            </mat-expansion-panel-header>\n            <mat-card (click)=\"onSelectedSearchItem(folder)\" *ngFor=\"let folder of seachResultFolders|slice:0: foldersShow\">\n              <div class=\"document\">\n                <div class=\"title\">\n                  {{folder.name}}\n                </div>\n                <div class=\"search-item\">\n                  <mat-icon class=\"icon-size-44 text-primary\">\n                      folder\n                  </mat-icon>\n                  <span>{{ folder.fullPath }}</span>\n                </div>\n              </div>\n            </mat-card>\n            <div class=\"text-right\">\n              <button \n                *ngIf=\"foldersShow < seachResultFolders.length\"\n                (click)=\"foldersShow=foldersShow+10\"\n                mat-raised-button>Load more</button>\n            </div>\n          </mat-expansion-panel>\n        </div>\n      </div>\n      <app-file-table\n        *ngIf=\"folders$ && files$\"\n        [folders]=\"folders$ | async\"\n        [files]=\"files$ | async\"\n        [fileActions]=\"fileActions\"\n        [folderActions]=\"folderActions\"\n        [config]=\"config\"\n        [$triggerClearSelected]=\"$triggerClearSelected\"\n        (checkedChanged)=\"$BulkSelected.next($event)\"\n        (selectedChanged)=\"this.onSelectedFilePath($event)\"\n        (enterFolder)=\"this.onEnterFolder($event)\"\n      >\n      </app-file-table>\n    </mat-drawer-content>\n    <mat-drawer\n      #drawer\n      [(opened)]=\"isFileDetailsOpen\"\n      class=\"history-drawer\"\n      mode=\"side\"\n      position=\"end\"\n      opened\n    >\n      <ngx-filemanager-file-details\n        [actions]=\"fileDetailActions\"\n        [file]=\"SelectedFile\"\n        [fileSystem]=\"fileSystem\"\n        [config]=\"config\"\n        (clickedDownload)=\"this.onDetailsClickDownload($event)\"\n      >\n      </ngx-filemanager-file-details>\n    </mat-drawer>\n  </mat-drawer-container>\n</div>\n",
+                providers: [
+                    ActionHandlersService,
+                    ClientFileSystemService,
+                    OptimisticFilesystemService
+                ],
+                styles: [".heading{font-family:sans-serif;margin-left:10px}mat-drawer{width:260px}mat-drawer-content{overflow:hidden}mat-drawer-content .loaded{overflow:auto}mat-drawer-container{width:100%}.ngx-file-page-container{display:flex;height:calc(100% - 65px)}.expander-container{align-items:center;cursor:pointer;display:flex;flex-direction:row-reverse;right:0;top:0;z-index:1}.expander-icon{font-size:2em;height:1em;transition:transform .5s;width:1em}.bulk-actions-container{height:80px;overflow:hidden;position:absolute;top:0;transition:top .7s;width:100%;z-index:2}.hidden{top:-90px}.drawer-out{transform:rotate(-90deg)}.drawer-in{transform:rotate(90deg)}.flex-h{align-items:center;display:flex;flex-direction:row}.space-between{justify-content:space-between}button.top{margin-left:10px}.breadcrumb-container{margin:2px 0}.document{cursor:pointer}.search-item{align-items:center;display:flex}", "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 LibMainFileManagerComponent.ctorParameters = () => [
@@ -4045,16 +4028,16 @@ const /** @type {?} */ MakeCrumbs = (virtualRoot, absolutePath) => {
         .split('/')
         .filter(p => !!p)
         .reduce((currentPath, curr) => {
-            const /** @type {?} */ dirname$1 = basename(currentPath);
-            const /** @type {?} */ crumb = {
-                label: dirname$1,
-                path: EnsureAbsoluteDirectory(virtualRootParsed + currentPath),
-                virtualPath: EnsureAbsoluteDirectory(currentPath)
-            };
-            crumbs.unshift(crumb);
-            const /** @type {?} */ parentPath = dirname(currentPath);
-            return parentPath;
-        }, relativeVirtualRoot);
+        const /** @type {?} */ dirname$1 = basename(currentPath);
+        const /** @type {?} */ crumb = {
+            label: dirname$1,
+            path: EnsureAbsoluteDirectory(virtualRootParsed + currentPath),
+            virtualPath: EnsureAbsoluteDirectory(currentPath)
+        };
+        crumbs.unshift(crumb);
+        const /** @type {?} */ parentPath = dirname(currentPath);
+        return parentPath;
+    }, relativeVirtualRoot);
     crumbs.unshift(MakeRootCrumb(virtualRootParsed));
     return crumbs;
 };
@@ -4117,11 +4100,10 @@ class AppBreadCrumbsComponent {
     }
 }
 AppBreadCrumbsComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'bread-crumbs',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'bread-crumbs',
+                template: `
     <div class="flex-row align-center">
       <div
         class="flex-row align-center"
@@ -4144,9 +4126,8 @@ AppBreadCrumbsComponent.decorators = [
       </div>
     </div>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppBreadCrumbsComponent.ctorParameters = () => [
@@ -4191,11 +4172,10 @@ class AppBulkActionsComponent {
     }
 }
 AppBulkActionsComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'bulk-actions',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'bulk-actions',
+                template: `
     <mat-toolbar color="primary">
       <mat-toolbar-row class="top-toolbar">
         <span class="top-toolbar-label">
@@ -4220,9 +4200,8 @@ AppBulkActionsComponent.decorators = [
       </mat-toolbar-row>
     </mat-toolbar>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 AppBulkActionsComponent.propDecorators = {
     bulkActions: [{ type: Input }],
@@ -4245,11 +4224,10 @@ function AppBulkActionsComponent_tsickle_Closure_declarations() {
 class AppMainActionsComponent {
 }
 AppMainActionsComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'main-actions',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'main-actions',
+                template: `
     <mat-toolbar>
       <mat-toolbar-row class="top-toolbar">
         <span class="top-toolbar-label">
@@ -4272,13 +4250,12 @@ AppMainActionsComponent.decorators = [
       </mat-toolbar-row>
     </mat-toolbar>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
       .top-toolbar-label {
         color: #8a8a8a;
       }
     `]
-        }]
-    }
+            }] }
 ];
 AppMainActionsComponent.propDecorators = {
     mainActions: [{ type: Input }]
@@ -4674,11 +4651,10 @@ class FileDetailsComponent {
     }
 }
 FileDetailsComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'ngx-filemanager-file-details',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'ngx-filemanager-file-details',
+                template: `
     <div class="details-container ml-5">
       <div *ngIf="!hasInput" class="none-selected">
         <h2>No item selected ...</h2>
@@ -4775,7 +4751,7 @@ FileDetailsComponent.decorators = [
       </div>
     </div>
   `,
-            styles: [`
+                styles: [`
       .filename {
         padding-right: 10px;
       }
@@ -4832,8 +4808,7 @@ FileDetailsComponent.decorators = [
         padding-bottom: 4px;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 FileDetailsComponent.ctorParameters = () => [
@@ -4935,11 +4910,11 @@ class FormBase {
             .pipe(takeUntil(this._destroyed))
             .pipe(auditTime(100))
             .subscribe(() => {
-                this._value = this.internalControl.value;
-                this.onChange(this._value);
-                this.onTouched();
-                // console.log('form-base-class: valueChanges', {val: this._value});
-            });
+            this._value = this.internalControl.value;
+            this.onChange(this._value);
+            this.onTouched();
+            // console.log('form-base-class: valueChanges', {val: this._value});
+        });
         if (!this.placeholder) {
             const /** @type {?} */ nameParsed = ConvertToTitleCase(this.formControlName + '');
             this.placeholder = nameParsed;
@@ -5112,19 +5087,18 @@ class FormFileFirebaseComponent extends FormBase {
      */
     ngOnInit() {
         let /** @type {?} */ app;
-        const firebaseApp = this.initializeApp(this.config.firebaseConfig);
-        if (firebaseApp.apps.length) {
-            app = firebaseApp.apps[0];
+        if (firebase__default.apps.length) {
+            app = firebase__default.apps[0];
         }
         else {
-            app = firebaseApp;
+            app = firebase__default.initializeApp(this.config.firebaseConfig);
         }
         this.storage = app.storage(this.currentBucketName());
         timer(0, 1000)
             .pipe(takeUntil(this.destroyed))
             .subscribe(() => {
-                this.checkAllUploadsAreDone();
-            });
+            this.checkAllUploadsAreDone();
+        });
     }
     /**
      * @return {?}
@@ -5223,7 +5197,7 @@ class FormFileFirebaseComponent extends FormBase {
             }
             yield this.addFile(uniqueFileName, originalFileName, fullPath);
             const /** @type {?} */ uploadTask = this.storage.refFromURL(fullPath).put(fileParsed);
-            uploadTask.on(this.storage.TaskEvent.STATE_CHANGED, {
+            uploadTask.on(firebase__default.storage.TaskEvent.STATE_CHANGED, {
                 next: snap => this.onNext(snap, fullPath),
                 error: error => this.onError(error),
                 complete: () => this.onComplete(fullPath, uniqueFileName, originalFileName)
@@ -5275,7 +5249,7 @@ class FormFileFirebaseComponent extends FormBase {
         return __awaiter(this, void 0, void 0, function* () {
             this.ensureValueIsArray();
             switch (snapshot.state) {
-                case this.storage.TaskState.RUNNING: // or 'running'
+                case firebase__default.storage.TaskState.RUNNING: // or 'running'
                     // or 'running'
                     const /** @type {?} */ file = this.value.find(f => f.bucket_path === fullPath);
                     const /** @type {?} */ progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -5356,11 +5330,10 @@ class FormFileFirebaseComponent extends FormBase {
     }
 }
 FormFileFirebaseComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line: component-selector
-            selector: 'form-file-firebase',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line: component-selector
+                selector: 'form-file-firebase',
+                template: `
     <div>
       <label class="custom-file-upload">
         <input
@@ -5392,19 +5365,19 @@ FormFileFirebaseComponent.decorators = [
       </app-uploaded-files-list>
     </div>
   `,
-            providers: [
-                {
-                    provide: NG_VALUE_ACCESSOR,
-                    useExisting: forwardRef(() => FormFileFirebaseComponent),
-                    multi: true
-                },
-                {
-                    provide: NG_VALIDATORS,
-                    useExisting: forwardRef(() => FormFileFirebaseComponent),
-                    multi: true
-                }
-            ],
-            styles: [`
+                providers: [
+                    {
+                        provide: NG_VALUE_ACCESSOR,
+                        useExisting: forwardRef(() => FormFileFirebaseComponent),
+                        multi: true
+                    },
+                    {
+                        provide: NG_VALIDATORS,
+                        useExisting: forwardRef(() => FormFileFirebaseComponent),
+                        multi: true
+                    }
+                ],
+                styles: [`
       .custom-file-upload {
         border: 4px dashed #ccc;
         display: inline-block;
@@ -5424,8 +5397,7 @@ FormFileFirebaseComponent.decorators = [
         font-style: italic;
       }
     `]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 FormFileFirebaseComponent.ctorParameters = () => [
@@ -5511,7 +5483,7 @@ function downscaleImage(dataUrl, newWidth, imageQuality, imageType, debug) {
         image.src = dataUrl;
         yield new Promise(resolve => {
             image.onload = () => {
-                resolve();
+                resolve('');
             };
         });
         const /** @type {?} */ oldWidth = image.width;
@@ -5583,10 +5555,9 @@ class FormFileUploadedFileListComponent {
     }
 }
 FormFileUploadedFileListComponent.decorators = [
-    {
-        type: Component, args: [{
-            selector: 'app-uploaded-files-list',
-            template: `
+    { type: Component, args: [{
+                selector: 'app-uploaded-files-list',
+                template: `
     <p *ngIf="uploadedFiles?.length">Uploaded files:</p>
     <div>
       <div *ngFor="let file of uploadedFiles">
@@ -5622,7 +5593,7 @@ FormFileUploadedFileListComponent.decorators = [
       </div>
     </div>
   `,
-            styles: [`
+                styles: [`
       .full-width {
         width: 100%;
       }
@@ -5655,8 +5626,7 @@ FormFileUploadedFileListComponent.decorators = [
         white-space: nowrap;
       }
     `]
-        }]
-    }
+            }] }
 ];
 FormFileUploadedFileListComponent.propDecorators = {
     disabled: [{ type: Input }],
@@ -5679,21 +5649,19 @@ function FormFileUploadedFileListComponent_tsickle_Closure_declarations() {
 class FormFileFirebaseModule {
 }
 FormFileFirebaseModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [
-                CommonModule,
-                FormsModule,
-                ReactiveFormsModule,
-                MatProgressBarModule,
-                MatInputModule,
-                MatIconModule
-            ],
-            exports: [FormFileFirebaseComponent],
-            declarations: [FormFileFirebaseComponent, FormFileUploadedFileListComponent],
-            providers: []
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    FormsModule,
+                    ReactiveFormsModule,
+                    MatProgressBarModule,
+                    MatInputModule,
+                    MatIconModule
+                ],
+                exports: [FormFileFirebaseComponent],
+                declarations: [FormFileFirebaseComponent, FormFileUploadedFileListComponent],
+                providers: []
+            },] }
 ];
 
 /**
@@ -5713,8 +5681,7 @@ class FileSystemRequestBuilder {
         this.logger = logger;
         this.LOG_ID = LOG_ID;
         this.options = {
-            headers: new HttpHeaders().set('Authorization', window.localStorage.getItem('token'))
-
+            headers: {}
         };
     }
     /**
@@ -5769,12 +5736,8 @@ class FileSystemRequestBuilder {
                     body: this.body,
                     options: this.options
                 });
-
-                let headers = new HttpHeaders().set('Authorization', window.localStorage.getItem('token'))
-                console.log(headers)
-
                 const /** @type {?} */ response = yield this.http
-                    .post(this.url, this.body, { headers })
+                    .post(this.url, this.body, this.options)
                     .pipe(take(1))
                     .toPromise();
                 return response;
@@ -5847,8 +5810,10 @@ class ServerFilesystemProviderService {
     List(path) {
         return this.makeAPIRequest('list')
             .PatchBody({
-                path: path,
-            })
+            path: path,
+        }).PatchHeaders({
+            Authorization: window.localStorage.getItem('token')
+        })
             .POST();
     }
     /**
@@ -5859,8 +5824,8 @@ class ServerFilesystemProviderService {
     CreateFolder(newPath, disableNoClobber) {
         return this.makeAPIRequest('createFolder')
             .PatchBody({
-                newPath: newPath,
-            })
+            newPath: newPath,
+        })
             .POST();
     }
     /**
@@ -5871,9 +5836,9 @@ class ServerFilesystemProviderService {
     Copy(singleFileName, newPath) {
         return this.makeAPIRequest('copy')
             .PatchBody({
-                singleFileName: singleFileName,
-                newPath: newPath,
-            })
+            singleFileName: singleFileName,
+            newPath: newPath,
+        })
             .POST();
     }
     /**
@@ -5884,9 +5849,9 @@ class ServerFilesystemProviderService {
     Move(item, newPath) {
         return this.makeAPIRequest('move')
             .PatchBody({
-                items: [item],
-                newPath: newPath,
-            })
+            items: [item],
+            newPath: newPath,
+        })
             .POST();
     }
     /**
@@ -5897,9 +5862,9 @@ class ServerFilesystemProviderService {
     Rename(item, newItemPath) {
         return this.makeAPIRequest('rename')
             .PatchBody({
-                item: item,
-                newItemPath: newItemPath,
-            })
+            item: item,
+            newItemPath: newItemPath,
+        })
             .POST();
     }
     /**
@@ -5910,9 +5875,9 @@ class ServerFilesystemProviderService {
     Edit(item, content) {
         return this.makeAPIRequest('edit')
             .PatchBody({
-                item: item,
-                content: content,
-            })
+            item: item,
+            content: content,
+        })
             .POST();
     }
     /**
@@ -5922,8 +5887,8 @@ class ServerFilesystemProviderService {
     Getcontent(item) {
         return this.makeAPIRequest('getContent')
             .PatchBody({
-                item: item,
-            })
+            item: item,
+        })
             .POST();
     }
     /**
@@ -5936,11 +5901,11 @@ class ServerFilesystemProviderService {
     SetPermissions(item, role, entity, recursive) {
         return this.makeAPIRequest('changePermissions')
             .PatchBody({
-                items: [item],
-                role: role,
-                entity: entity,
-                recursive: recursive,
-            })
+            items: [item],
+            role: role,
+            entity: entity,
+            recursive: recursive,
+        })
             .POST();
     }
     /**
@@ -5951,9 +5916,9 @@ class ServerFilesystemProviderService {
     MoveMultiple(items, newPath) {
         return this.makeAPIRequest('move')
             .PatchBody({
-                items: items,
-                newPath: newPath,
-            })
+            items: items,
+            newPath: newPath,
+        })
             .POST();
     }
     /**
@@ -5964,9 +5929,9 @@ class ServerFilesystemProviderService {
     CopyMultiple(items, newPath) {
         return this.makeAPIRequest('copy')
             .PatchBody({
-                items: items,
-                newPath: newPath,
-            })
+            items: items,
+            newPath: newPath,
+        })
             .POST();
     }
     /**
@@ -5979,11 +5944,11 @@ class ServerFilesystemProviderService {
     SetPermissionsMultiple(items, role, entity, recursive) {
         return this.makeAPIRequest('changePermissions')
             .PatchBody({
-                items: items,
-                role: role,
-                entity: entity,
-                recursive: recursive,
-            })
+            items: items,
+            role: role,
+            entity: entity,
+            recursive: recursive,
+        })
             .POST();
     }
     /**
@@ -5995,10 +5960,10 @@ class ServerFilesystemProviderService {
     SetPermissionsObjectMultiple(items, permissionsObj, recursive) {
         return this.makeAPIRequest('changePermissionsObject')
             .PatchBody({
-                items: items,
-                permissionsObj: permissionsObj,
-                recursive: recursive,
-            })
+            items: items,
+            permissionsObj: permissionsObj,
+            recursive: recursive,
+        })
             .POST();
     }
     /**
@@ -6008,8 +5973,8 @@ class ServerFilesystemProviderService {
     Remove(items) {
         return this.makeAPIRequest('remove')
             .PatchBody({
-                items: items,
-            })
+            items: items,
+        })
             .POST();
     }
     /**
@@ -6019,8 +5984,8 @@ class ServerFilesystemProviderService {
     GetSingle(item) {
         return this.makeAPIRequest('getSingle')
             .PatchBody({
-                item: item,
-            })
+            item: item,
+        })
             .POST();
     }
     /**
@@ -6051,8 +6016,8 @@ class ServerFilesystemProviderService {
             try {
                 const /** @type {?} */ response = yield this.makeAPIRequest('getSingle')
                     .PatchBody({
-                        item: file.fullPath,
-                    })
+                    item: file.fullPath,
+                })
                     .POST();
                 const /** @type {?} */ url = response.result.url;
                 return url;
@@ -6102,10 +6067,9 @@ function ServerFilesystemProviderService_tsickle_Closure_declarations() {
 class BaseDialogComponent {
 }
 BaseDialogComponent.decorators = [
-    {
-        type: Component, args: [{
-            selector: 'base-dialog',
-            template: `
+    { type: Component, args: [{
+                selector: 'base-dialog',
+                template: `
     <div class="dialog-wrapper">
       <div class="header sans-serif flex-col align-center">
         <ng-container *ngTemplateOutlet="header"> </ng-container>
@@ -6118,7 +6082,7 @@ BaseDialogComponent.decorators = [
       </div>
     </div>
   `,
-            styles: [`
+                styles: [`
       .dialog-wrapper {
         max-height: 80vh;
         min-width: 400px;
@@ -6133,8 +6097,7 @@ BaseDialogComponent.decorators = [
         max-height: 200px;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 BaseDialogComponent.propDecorators = {
     header: [{ type: Input }],
@@ -6237,9 +6200,8 @@ class AppDialogPermissionsSetComponent {
     }
 }
 AppDialogPermissionsSetComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -6318,9 +6280,8 @@ AppDialogPermissionsSetComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppDialogPermissionsSetComponent.ctorParameters = () => [
@@ -6380,9 +6341,8 @@ class AppDialogMyDetailsComponent {
     }
 }
 AppDialogMyDetailsComponent.decorators = [
-    {
-        type: Component, args: [{
-            template: `
+    { type: Component, args: [{
+                template: `
     <base-dialog
       [header]="headerTemplate"
       [body]="bodyTemplate"
@@ -6407,9 +6367,8 @@ AppDialogMyDetailsComponent.decorators = [
       </ng-template>
     </base-dialog>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
+            }] }
 ];
 /** @nocollapse */
 AppDialogMyDetailsComponent.ctorParameters = () => [
@@ -6431,11 +6390,10 @@ class AppBtnsCancelOkComponent {
     }
 }
 AppBtnsCancelOkComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'btns-cancel-ok',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'btns-cancel-ok',
+                template: `
     <div class="full-width text-center">
       <button mat-raised-button (click)="clickedCancel.emit()">
         <mat-icon>clear</mat-icon>
@@ -6452,13 +6410,12 @@ AppBtnsCancelOkComponent.decorators = [
       </button>
     </div>
   `,
-            styles: [`
+                styles: [`
       button {
         margin: 5px;
       }
     `]
-        }]
-    }
+            }] }
 ];
 AppBtnsCancelOkComponent.propDecorators = {
     okDisabled: [{ type: Input }],
@@ -6525,11 +6482,10 @@ class AppFileTableMiniFolderBrowserComponent {
     }
 }
 AppFileTableMiniFolderBrowserComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'app-file-table-mini-folder-browser',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'app-file-table-mini-folder-browser',
+                template: `
     <div class="full-width mini-browser-height">
       <actions-mini-browser [mainActions]="mainActions"> </actions-mini-browser>
       <h4 class="p5 m0 color-grey">Folders</h4>
@@ -6544,12 +6500,12 @@ AppFileTableMiniFolderBrowserComponent.decorators = [
       </div>
     </div>
   `,
-            providers: [
-                ActionHandlersService,
-                ClientFileSystemService,
-                OptimisticFilesystemService
-            ],
-            styles: [`
+                providers: [
+                    ActionHandlersService,
+                    ClientFileSystemService,
+                    OptimisticFilesystemService
+                ],
+                styles: [`
       .mini-browser-height {
         min-height: 400px;
         max-height: 80vh;
@@ -6558,8 +6514,7 @@ AppFileTableMiniFolderBrowserComponent.decorators = [
         background-color: #fff;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 /** @nocollapse */
 AppFileTableMiniFolderBrowserComponent.ctorParameters = () => [
@@ -6595,11 +6550,10 @@ function AppFileTableMiniFolderBrowserComponent_tsickle_Closure_declarations() {
 class AppActionsMiniBrowserComponent {
 }
 AppActionsMiniBrowserComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'actions-mini-browser',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'actions-mini-browser',
+                template: `
     <mat-toolbar color="primary" *ngIf="this.mainActions">
       <mat-toolbar-row class="top-toolbar">
         <span class="top-toolbar-label">
@@ -6622,13 +6576,12 @@ AppActionsMiniBrowserComponent.decorators = [
       </mat-toolbar-row>
     </mat-toolbar>
   `,
-            styles: [`
+                styles: [`
       button.action {
         margin-right: 10px;
       }
     `, "h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}"]
-        }]
-    }
+            }] }
 ];
 AppActionsMiniBrowserComponent.propDecorators = {
     mainActions: [{ type: Input }]
@@ -6686,14 +6639,12 @@ function FileSizePipe_tsickle_Closure_declarations() {
 class FileSizeModule {
 }
 FileSizeModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [CommonModule],
-            exports: [FileSizePipe],
-            declarations: [FileSizePipe],
-            providers: [],
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                exports: [FileSizePipe],
+                declarations: [FileSizePipe],
+                providers: [],
+            },] }
 ];
 
 /**
@@ -6733,10 +6684,9 @@ class CardFileComponent {
     }
 }
 CardFileComponent.decorators = [
-    {
-        type: Component, args: [{
-            selector: 'card-file',
-            template: `
+    { type: Component, args: [{
+                selector: 'card-file',
+                template: `
     <div
       class="flex-row p5 space-between bg-grey-hover rounded"
       matTooltip="Click For Details"
@@ -6784,9 +6734,8 @@ CardFileComponent.decorators = [
       </button>
     </mat-menu>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", ``]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", ``]
+            }] }
 ];
 CardFileComponent.propDecorators = {
     file: [{ type: Input }],
@@ -6866,10 +6815,9 @@ class CardFolderComponent {
     }
 }
 CardFolderComponent.decorators = [
-    {
-        type: Component, args: [{
-            selector: 'card-folder',
-            template: `
+    { type: Component, args: [{
+                selector: 'card-folder',
+                template: `
     <div
       class="flex-row p5 space-between bg-grey-hover rounded"
       matTooltip="Click For Details"
@@ -6919,9 +6867,8 @@ CardFolderComponent.decorators = [
       </button>
     </mat-menu>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", ``]
-        }]
-    }
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", ``]
+            }] }
 ];
 CardFolderComponent.propDecorators = {
     folder: [{ type: Input }],
@@ -7026,11 +6973,10 @@ class AppFileTableComponent {
     }
 }
 AppFileTableComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'app-file-table',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'app-file-table',
+                template: `
     <div class="files-viewer full-width">
       <div *ngIf="folders?.length" class="flex-row align-center">
         <mat-icon
@@ -7091,7 +7037,7 @@ AppFileTableComponent.decorators = [
       </div>
     </div>
   `,
-            styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
+                styles: ["h1,h2,h3,h4,h5,h6,i,mat-chip,p,small,span{font-family:sans-serif}.is-red{background:red}.flex-col{display:flex;flex-direction:column}.flex-row{display:flex;flex-direction:row}.align-center{align-items:center}.align-top{align-items:start}.align-bottom{align-items:end}.fit-content{width:-moz-fit-content;width:fit-content}.sans-serif{font-family:sans-serif}.has-pointer{cursor:pointer}.has-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scroll-x{overflow-x:auto}.full-width{width:100%}.text-center{text-align:center}.space-between{justify-content:space-between}.break-word{overflow-wrap:break-word;word-break:break-all}.capitalize{text-transform:capitalize}.p5{padding:5px}.m0{margin:0}.mb-10{margin-bottom:10px}.mr-10{margin-right:10px}.m-10{margin:10px}.color-grey{color:#8c8c8c}.rounded{border-radius:5px}.bg-grey-light{background-color:rgba(95,95,95,.2)}.bg-grey-dark{background-color:rgba(50,50,50,.39)}.bg-grey-hover{transition:background-color .5s}.bg-grey-hover:hover{background-color:rgba(95,95,95,.336)}.color-white{color:#fff}.color-grey-hover{transition:color .5s}.color-grey-hover:hover{color:#444}.color-black{color:#000}.action-toolbar{height:55px}.top-toolbar-label{font-size:.8em;margin:0}.top-toolbar{height:20px;padding-top:3px}", `
       .nothing-here {
         padding: 20px;
         padding-bottom: 100px;
@@ -7102,8 +7048,7 @@ AppFileTableComponent.decorators = [
         min-height: 500px;
       }
     `]
-        }]
-    }
+            }] }
 ];
 AppFileTableComponent.propDecorators = {
     $triggerClearSelected: [{ type: Input }],
@@ -7152,21 +7097,19 @@ function AppFileTableComponent_tsickle_Closure_declarations() {
 class AppFileTableModule {
 }
 AppFileTableModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [
-                CommonModule,
-                FileSizeModule,
-                MatMenuModule,
-                MatIconModule,
-                MatButtonModule,
-                MatTooltipModule
-            ],
-            exports: [AppFileTableComponent, CardFolderComponent],
-            declarations: [CardFileComponent, CardFolderComponent, AppFileTableComponent],
-            providers: []
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    FileSizeModule,
+                    MatMenuModule,
+                    MatIconModule,
+                    MatButtonModule,
+                    MatTooltipModule
+                ],
+                exports: [AppFileTableComponent, CardFolderComponent],
+                declarations: [CardFileComponent, CardFolderComponent, AppFileTableComponent],
+                providers: []
+            },] }
 ];
 
 /**
@@ -7176,24 +7119,22 @@ AppFileTableModule.decorators = [
 class FileTableMiniModule {
 }
 FileTableMiniModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [
-                CommonModule,
-                FileSizeModule,
-                MatButtonModule,
-                MatIconModule,
-                AppFileTableModule,
-                MatToolbarModule
-            ],
-            exports: [AppFileTableMiniFolderBrowserComponent],
-            declarations: [
-                AppFileTableMiniFolderBrowserComponent,
-                AppActionsMiniBrowserComponent
-            ],
-            providers: []
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    FileSizeModule,
+                    MatButtonModule,
+                    MatIconModule,
+                    AppFileTableModule,
+                    MatToolbarModule
+                ],
+                exports: [AppFileTableMiniFolderBrowserComponent],
+                declarations: [
+                    AppFileTableMiniFolderBrowserComponent,
+                    AppActionsMiniBrowserComponent
+                ],
+                providers: []
+            },] }
 ];
 
 /**
@@ -7357,11 +7298,10 @@ class AppControlTagMultipleComponent {
     }
 }
 AppControlTagMultipleComponent.decorators = [
-    {
-        type: Component, args: [{
-            // tslint:disable-next-line:component-selector
-            selector: 'app-control-tag-multiple',
-            template: `
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'app-control-tag-multiple',
+                template: `
     <mat-form-field class="full-width" [class.formInvalid]="hasRed()">
       <mat-chip-list #chipList [disabled]="!removableTags" [multiple]="true">
         <mat-chip
@@ -7406,7 +7346,7 @@ AppControlTagMultipleComponent.decorators = [
       </mat-autocomplete>
     </mat-form-field>
   `,
-            styles: [`
+                styles: [`
       .full-width {
         width: 100%;
       }
@@ -7427,8 +7367,7 @@ AppControlTagMultipleComponent.decorators = [
         color: white;
       }
     `]
-        }]
-    }
+            }] }
 ];
 AppControlTagMultipleComponent.propDecorators = {
     tagInput: [{ type: ViewChild, args: ['tagInput', { static: false },] }],
@@ -7482,23 +7421,21 @@ function AppControlTagMultipleComponent_tsickle_Closure_declarations() {
 class TagsControlModule {
 }
 TagsControlModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [
-                CommonModule,
-                ReactiveFormsModule,
-                FormsModule,
-                MatChipsModule,
-                MatAutocompleteModule,
-                MatIconModule,
-                MatInputModule,
-                MatFormFieldModule
-            ],
-            exports: [AppControlTagMultipleComponent],
-            declarations: [AppControlTagMultipleComponent],
-            providers: []
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    ReactiveFormsModule,
+                    FormsModule,
+                    MatChipsModule,
+                    MatAutocompleteModule,
+                    MatIconModule,
+                    MatInputModule,
+                    MatFormFieldModule
+                ],
+                exports: [AppControlTagMultipleComponent],
+                declarations: [AppControlTagMultipleComponent],
+                providers: []
+            },] }
 ];
 
 /**
@@ -7520,88 +7457,29 @@ const /** @type {?} */ declarations = [...entryComponents, AppBtnsCancelOkCompon
 class NgxFilemanagerClientDialogsModule {
 }
 NgxFilemanagerClientDialogsModule.decorators = [
-    {
-        type: NgModule, args: [{
-            imports: [
-                CommonModule,
-                FormsModule,
-                ReactiveFormsModule,
-                FormFileFirebaseModule,
-                MatChipsModule,
-                MatDialogModule,
-                MatFormFieldModule,
-                MatButtonModule,
-                MatInputModule,
-                MatIconModule,
-                MatSelectModule,
-                MatCardModule,
-                FileTableMiniModule,
-                TagsControlModule
-            ],
-            exports: [...entryComponents],
-            entryComponents: [...entryComponents],
-            declarations: [...declarations],
-            providers: []
-        },]
-    }
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    FormsModule,
+                    ReactiveFormsModule,
+                    FormFileFirebaseModule,
+                    MatChipsModule,
+                    MatDialogModule,
+                    MatFormFieldModule,
+                    MatButtonModule,
+                    MatInputModule,
+                    MatIconModule,
+                    MatSelectModule,
+                    MatCardModule,
+                    FileTableMiniModule,
+                    TagsControlModule
+                ],
+                exports: [...entryComponents],
+                entryComponents: [...entryComponents],
+                declarations: [...declarations],
+                providers: []
+            },] }
 ];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-class Interceptor {
-    constructor() {
-        this.token = new Subject();
-    }
-    /**
-     * @param {?} request
-     * @param {?} next
-     * @return {?}
-     */
-    intercept(request, next) {
-
-        let /** @type {?} */ app;
-        /* const firebaseApp = this.initializeApp(this.config.firebaseConfig);
-        if (firebaseApp.apps.length) {
-            app = firebaseApp.apps[0];
-        }
-        else {
-            app = firebaseApp;
-        } */
-
-        request = request.clone({
-            setHeaders: {
-                authorization: window.localStorage.getItem('token')
-            }
-        });
-
-        return next.handle(request);
-
-
-        /* if (app.auth().currentUser) {
-            return from(app.auth().currentUser.getIdToken().then(token => {
-                
-            }).catch(err => {
-                return request;
-            })).pipe(switchMap(req => {
-                return next.handle(req);
-            }));
-        }
-        else {
-            return next.handle(request);
-        } */
-    }
-}
-Interceptor.decorators = [
-    { type: Injectable }
-];
-/** @nocollapse */
-Interceptor.ctorParameters = () => [];
-function Interceptor_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Interceptor.prototype.token;
-}
 
 /**
  * @fileoverview added by tsickle
@@ -7618,58 +7496,55 @@ const ɵ0$2 = getBaseHref;
 class NgxFilemanagerClientFirebaseModule {
 }
 NgxFilemanagerClientFirebaseModule.decorators = [
-    {
-        type: NgModule, args: [{
-            declarations: declarations$1,
-            imports: [
-                CommonModule,
-                FormsModule,
-                HttpClientModule,
-                ReactiveFormsModule,
-                FileSizeModule,
-                AppFileTableModule,
-                FormFileFirebaseModule,
-                NgxFilemanagerClientDialogsModule,
-                MatAutocompleteModule,
-                MatButtonModule,
-                MatButtonToggleModule,
-                MatCheckboxModule,
-                MatChipsModule,
-                MatCardModule,
-                MatDialogModule,
-                MatFormFieldModule,
-                MatIconModule,
-                MatInputModule,
-                MatMenuModule,
-                MatPaginatorModule,
-                MatProgressBarModule,
-                MatProgressSpinnerModule,
-                MatSelectModule,
-                MatSidenavModule,
-                MatSnackBarModule,
-                MatSortModule,
-                MatTableModule,
-                MatTabsModule,
-                MatToolbarModule,
-                MatTooltipModule,
-                MatExpansionModule
-            ],
-            exports: [LibMainFileManagerComponent],
-            providers: [
-                ServerFilesystemProviderService,
-                FilemanagerStatusService,
-                NotificationService,
-                {
-                    provide: APP_BASE_HREF,
-                    useFactory: ɵ0$2,
-                    deps: [PlatformLocation]
-                },
-                { provide: LoggerService, useClass: ConsoleLoggerService },
-                IconUrlResolverService,
-                
-            ]
-        },]
-    }
+    { type: NgModule, args: [{
+                declarations: declarations$1,
+                imports: [
+                    CommonModule,
+                    FormsModule,
+                    HttpClientModule,
+                    ReactiveFormsModule,
+                    FileSizeModule,
+                    AppFileTableModule,
+                    FormFileFirebaseModule,
+                    NgxFilemanagerClientDialogsModule,
+                    MatAutocompleteModule,
+                    MatButtonModule,
+                    MatButtonToggleModule,
+                    MatCheckboxModule,
+                    MatChipsModule,
+                    MatCardModule,
+                    MatDialogModule,
+                    MatFormFieldModule,
+                    MatIconModule,
+                    MatInputModule,
+                    MatMenuModule,
+                    MatPaginatorModule,
+                    MatProgressBarModule,
+                    MatProgressSpinnerModule,
+                    MatSelectModule,
+                    MatSidenavModule,
+                    MatSnackBarModule,
+                    MatSortModule,
+                    MatTableModule,
+                    MatTabsModule,
+                    MatToolbarModule,
+                    MatTooltipModule,
+                    MatExpansionModule
+                ],
+                exports: [LibMainFileManagerComponent],
+                providers: [
+                    ServerFilesystemProviderService,
+                    FilemanagerStatusService,
+                    NotificationService,
+                    {
+                        provide: APP_BASE_HREF,
+                        useFactory: ɵ0$2,
+                        deps: [PlatformLocation]
+                    },
+                    { provide: LoggerService, useClass: ConsoleLoggerService },
+                    IconUrlResolverService
+                ]
+            },] }
 ];
 
 /**
@@ -8101,5 +7976,5 @@ function FileSystemStub_tsickle_Closure_declarations() {
  * @suppress {checkTypes} checked by tsc
  */
 
-export { FileSystemStub, NgxFilemanagerClientFirebaseModule, ServerFilesystemProviderService, LibMainFileManagerComponent as ɵa, ActionHandlersService as ɵb, TagsControlModule as ɵba, AppControlTagMultipleComponent as ɵbb, BaseDialogComponent as ɵbc, AppDialogRenameComponent as ɵbd, AppDialogNewFolderComponent as ɵbe, AppDialogPermissionsSetComponent as ɵbf, AppDialogPermissionsSetObjectComponent as ɵbg, AppDialogCopyComponent as ɵbh, AppDialogUploadFilesComponent as ɵbi, AppDialogMyDetailsComponent as ɵbj, AppDialogConfirmationComponent as ɵbk, AppBtnsCancelOkComponent as ɵbl, getBaseHref as ɵbm, ConsoleLoggerService as ɵbn, Interceptor as ɵbo, ClientFileSystemService as ɵc, LoggerService as ɵd, IconUrlResolverService as ɵe, OptimisticFilesystemService as ɵf, NotificationService as ɵg, FilemanagerStatusService as ɵh, AppBreadCrumbsComponent as ɵi, AppBulkActionsComponent as ɵj, AppMainActionsComponent as ɵk, FileDetailsComponent as ɵl, FileSizeModule as ɵm, FileSizePipe as ɵn, AppFileTableModule as ɵo, AppFileTableComponent as ɵp, CardFolderComponent as ɵq, CardFileComponent as ɵr, FormFileFirebaseModule as ɵs, FormFileFirebaseComponent as ɵt, FormBase as ɵu, FormFileUploadedFileListComponent as ɵv, NgxFilemanagerClientDialogsModule as ɵw, FileTableMiniModule as ɵx, AppFileTableMiniFolderBrowserComponent as ɵy, AppActionsMiniBrowserComponent as ɵz };
+export { FileSystemStub, NgxFilemanagerClientFirebaseModule, ServerFilesystemProviderService, LibMainFileManagerComponent as ɵa, ActionHandlersService as ɵb, TagsControlModule as ɵba, AppControlTagMultipleComponent as ɵbb, BaseDialogComponent as ɵbc, AppDialogRenameComponent as ɵbd, AppDialogNewFolderComponent as ɵbe, AppDialogPermissionsSetComponent as ɵbf, AppDialogPermissionsSetObjectComponent as ɵbg, AppDialogCopyComponent as ɵbh, AppDialogUploadFilesComponent as ɵbi, AppDialogMyDetailsComponent as ɵbj, AppDialogConfirmationComponent as ɵbk, AppBtnsCancelOkComponent as ɵbl, getBaseHref as ɵbm, ConsoleLoggerService as ɵbn, ClientFileSystemService as ɵc, LoggerService as ɵd, IconUrlResolverService as ɵe, OptimisticFilesystemService as ɵf, NotificationService as ɵg, FilemanagerStatusService as ɵh, AppBreadCrumbsComponent as ɵi, AppBulkActionsComponent as ɵj, AppMainActionsComponent as ɵk, FileDetailsComponent as ɵl, FileSizeModule as ɵm, FileSizePipe as ɵn, AppFileTableModule as ɵo, AppFileTableComponent as ɵp, CardFolderComponent as ɵq, CardFileComponent as ɵr, FormFileFirebaseModule as ɵs, FormFileFirebaseComponent as ɵt, FormBase as ɵu, FormFileUploadedFileListComponent as ɵv, NgxFilemanagerClientDialogsModule as ɵw, FileTableMiniModule as ɵx, AppFileTableMiniFolderBrowserComponent as ɵy, AppActionsMiniBrowserComponent as ɵz };
 //# sourceMappingURL=ngx-filemanager-client-firebase.js.map
