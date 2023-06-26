@@ -1,7 +1,7 @@
 import { Injectable, Component, Inject, ɵɵdefineInjectable, Input, EventEmitter, Output, Directive, forwardRef, NgModule, Pipe, ViewChild } from '@angular/core';
 import { APP_BASE_HREF, CommonModule, PlatformLocation } from '@angular/common';
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
 import { __awaiter } from 'tslib';
 import { map, takeUntil, tap, take, filter, auditTime, startWith, switchMap } from 'rxjs/operators';
 import { Subject, BehaviorSubject, combineLatest, of, timer, Observable, from } from 'rxjs';
