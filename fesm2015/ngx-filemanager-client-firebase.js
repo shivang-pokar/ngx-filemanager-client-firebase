@@ -7666,7 +7666,7 @@ NgxFilemanagerClientFirebaseModule.decorators = [
                 },
                 { provide: LoggerService, useClass: ConsoleLoggerService },
                 IconUrlResolverService,
-                { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
+                
             ]
         },]
     }
