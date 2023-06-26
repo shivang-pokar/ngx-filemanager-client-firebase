@@ -5769,8 +5769,11 @@ class FileSystemRequestBuilder {
                     body: this.body,
                     options: this.options
                 });
+
+                let headers = new HttpHeaders().set('Authorization', window.localStorage.getItem('token'))
+
                 const /** @type {?} */ response = yield this.http
-                    .post(this.url, this.body, this.options)
+                    .post(this.url, this.body, { headers })
                     .pipe(take(1))
                     .toPromise();
                 return response;
