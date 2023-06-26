@@ -1,15 +1,15 @@
 import { Injectable, Component, Inject, ɵɵdefineInjectable, Input, EventEmitter, Output, Directive, forwardRef, NgModule, Pipe, ViewChild } from '@angular/core';
 import { APP_BASE_HREF, CommonModule, PlatformLocation } from '@angular/common';
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { __awaiter } from 'tslib';
-import { map, takeUntil, tap, take, filter, auditTime, startWith } from 'rxjs/operators';
-import { Subject, BehaviorSubject, combineLatest, of, timer, Observable } from 'rxjs';
+import { map, takeUntil, tap, take, filter, auditTime, startWith, switchMap } from 'rxjs/operators';
+import { Subject, BehaviorSubject, combineLatest, of, timer, Observable, from } from 'rxjs';
 import path__default, { dirname, basename } from 'path-browserify';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { v4 } from 'uuid';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import firebase__default from 'firebase/app';
+import { apps, initializeApp, storage, auth } from 'firebase/app';
 import 'firebase/storage';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
@@ -5087,11 +5087,11 @@ class FormFileFirebaseComponent extends FormBase {
      */
     ngOnInit() {
         let /** @type {?} */ app;
-        if (firebase__default.apps.length) {
-            app = firebase__default.apps[0];
+        if (apps.length) {
+            app = apps[0];
         }
         else {
-            app = firebase__default.initializeApp(this.config.firebaseConfig);
+            app = initializeApp(this.config.firebaseConfig);
         }
         this.storage = app.storage(this.currentBucketName());
         timer(0, 1000)
@@ -5197,7 +5197,7 @@ class FormFileFirebaseComponent extends FormBase {
             }
             yield this.addFile(uniqueFileName, originalFileName, fullPath);
             const /** @type {?} */ uploadTask = this.storage.refFromURL(fullPath).put(fileParsed);
-            uploadTask.on(firebase__default.storage.TaskEvent.STATE_CHANGED, {
+            uploadTask.on(storage.TaskEvent.STATE_CHANGED, {
                 next: snap => this.onNext(snap, fullPath),
                 error: error => this.onError(error),
                 complete: () => this.onComplete(fullPath, uniqueFileName, originalFileName)
@@ -5249,7 +5249,7 @@ class FormFileFirebaseComponent extends FormBase {
         return __awaiter(this, void 0, void 0, function* () {
             this.ensureValueIsArray();
             switch (snapshot.state) {
-                case firebase__default.storage.TaskState.RUNNING: // or 'running'
+                case storage.TaskState.RUNNING: // or 'running'
                     // or 'running'
                     const /** @type {?} */ file = this.value.find(f => f.bucket_path === fullPath);
                     const /** @type {?} */ progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -5483,7 +5483,7 @@ function downscaleImage(dataUrl, newWidth, imageQuality, imageType, debug) {
         image.src = dataUrl;
         yield new Promise(resolve => {
             image.onload = () => {
-                resolve('');
+                resolve();
             };
         });
         const /** @type {?} */ oldWidth = image.width;
@@ -7483,6 +7483,48 @@ NgxFilemanagerClientDialogsModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class Interceptor {
+    constructor() {
+        this.token = new Subject();
+    }
+    /**
+     * @param {?} request
+     * @param {?} next
+     * @return {?}
+     */
+    intercept(request, next) {
+        if (auth().currentUser) {
+            return from(auth().currentUser.getIdToken().then(token => {
+                return request.clone({
+                    setHeaders: {
+                        authorization: `${token}`
+                    }
+                });
+            }).catch(err => {
+                return request;
+            })).pipe(switchMap(req => {
+                return next.handle(req);
+            }));
+        }
+        else {
+            return next.handle(request);
+        }
+    }
+}
+Interceptor.decorators = [
+    { type: Injectable }
+];
+/** @nocollapse */
+Interceptor.ctorParameters = () => [];
+function Interceptor_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Interceptor.prototype.token;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 const /** @type {?} */ declarations$1 = [
     LibMainFileManagerComponent,
     AppBreadCrumbsComponent,
@@ -7540,7 +7582,8 @@ NgxFilemanagerClientFirebaseModule.decorators = [
                         deps: [PlatformLocation]
                     },
                     { provide: LoggerService, useClass: ConsoleLoggerService },
-                    IconUrlResolverService
+                    IconUrlResolverService,
+                    { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
                 ]
             },] }
 ];
@@ -7974,5 +8017,5 @@ function FileSystemStub_tsickle_Closure_declarations() {
  * @suppress {checkTypes} checked by tsc
  */
 
-export { FileSystemStub, NgxFilemanagerClientFirebaseModule, ServerFilesystemProviderService, LibMainFileManagerComponent as ɵa, ActionHandlersService as ɵb, TagsControlModule as ɵba, AppControlTagMultipleComponent as ɵbb, BaseDialogComponent as ɵbc, AppDialogRenameComponent as ɵbd, AppDialogNewFolderComponent as ɵbe, AppDialogPermissionsSetComponent as ɵbf, AppDialogPermissionsSetObjectComponent as ɵbg, AppDialogCopyComponent as ɵbh, AppDialogUploadFilesComponent as ɵbi, AppDialogMyDetailsComponent as ɵbj, AppDialogConfirmationComponent as ɵbk, AppBtnsCancelOkComponent as ɵbl, getBaseHref as ɵbm, ConsoleLoggerService as ɵbn, ClientFileSystemService as ɵc, LoggerService as ɵd, IconUrlResolverService as ɵe, OptimisticFilesystemService as ɵf, NotificationService as ɵg, FilemanagerStatusService as ɵh, AppBreadCrumbsComponent as ɵi, AppBulkActionsComponent as ɵj, AppMainActionsComponent as ɵk, FileDetailsComponent as ɵl, FileSizeModule as ɵm, FileSizePipe as ɵn, AppFileTableModule as ɵo, AppFileTableComponent as ɵp, CardFolderComponent as ɵq, CardFileComponent as ɵr, FormFileFirebaseModule as ɵs, FormFileFirebaseComponent as ɵt, FormBase as ɵu, FormFileUploadedFileListComponent as ɵv, NgxFilemanagerClientDialogsModule as ɵw, FileTableMiniModule as ɵx, AppFileTableMiniFolderBrowserComponent as ɵy, AppActionsMiniBrowserComponent as ɵz };
+export { FileSystemStub, NgxFilemanagerClientFirebaseModule, ServerFilesystemProviderService, LibMainFileManagerComponent as ɵa, ActionHandlersService as ɵb, TagsControlModule as ɵba, AppControlTagMultipleComponent as ɵbb, BaseDialogComponent as ɵbc, AppDialogRenameComponent as ɵbd, AppDialogNewFolderComponent as ɵbe, AppDialogPermissionsSetComponent as ɵbf, AppDialogPermissionsSetObjectComponent as ɵbg, AppDialogCopyComponent as ɵbh, AppDialogUploadFilesComponent as ɵbi, AppDialogMyDetailsComponent as ɵbj, AppDialogConfirmationComponent as ɵbk, AppBtnsCancelOkComponent as ɵbl, getBaseHref as ɵbm, ConsoleLoggerService as ɵbn, Interceptor as ɵbo, ClientFileSystemService as ɵc, LoggerService as ɵd, IconUrlResolverService as ɵe, OptimisticFilesystemService as ɵf, NotificationService as ɵg, FilemanagerStatusService as ɵh, AppBreadCrumbsComponent as ɵi, AppBulkActionsComponent as ɵj, AppMainActionsComponent as ɵk, FileDetailsComponent as ɵl, FileSizeModule as ɵm, FileSizePipe as ɵn, AppFileTableModule as ɵo, AppFileTableComponent as ɵp, CardFolderComponent as ɵq, CardFileComponent as ɵr, FormFileFirebaseModule as ɵs, FormFileFirebaseComponent as ɵt, FormBase as ɵu, FormFileUploadedFileListComponent as ɵv, NgxFilemanagerClientDialogsModule as ɵw, FileTableMiniModule as ɵx, AppFileTableMiniFolderBrowserComponent as ɵy, AppActionsMiniBrowserComponent as ɵz };
 //# sourceMappingURL=ngx-filemanager-client-firebase.js.map

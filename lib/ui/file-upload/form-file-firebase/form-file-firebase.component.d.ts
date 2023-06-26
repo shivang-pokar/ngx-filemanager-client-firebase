@@ -20,7 +20,7 @@ export declare class FormFileFirebaseComponent extends FormBase<FormArrayFileObj
     config: FormFilesConfiguration;
     uploadStatusChanged: EventEmitter<boolean>;
     destroyed: Subject<unknown>;
-    storage: firebase.default.storage.Storage;
+    storage: firebase.storage.Storage;
     constructor(ns: NotificationService);
     ngOnInit(): void;
     ngOnDestroy(): void;
@@ -33,7 +33,7 @@ export declare class FormFileFirebaseComponent extends FormBase<FormArrayFileObj
     beginUploadTask(file: File): Promise<void>;
     parseAndCompress(file: any): Promise<any>;
     getFileSizeKiloBytes(dataURL: any): string;
-    onNext(snapshot: firebase.default.storage.UploadTaskSnapshot, fullPath: string): Promise<void>;
+    onNext(snapshot: firebase.storage.UploadTaskSnapshot, fullPath: string): Promise<void>;
     onError(error: any): void;
     onComplete(fullPath: any, uniqueFileName: any, originalFileName: any): Promise<void>;
     addFile(uniqueFileName: string, originalFileName: string, fullPath: string): void;

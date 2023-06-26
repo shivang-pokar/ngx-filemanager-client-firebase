@@ -3,6 +3,7 @@
  */
 export * from './public_api';
 export { getBaseHref as ɵbm } from './lib/getBaseHref';
+export { Interceptor as ɵbo } from './lib/interceptor';
 export { ConsoleLoggerService as ɵbn } from './lib/services/logging/console-logger.service';
 export { LoggerService as ɵd } from './lib/services/logging/logger.service';
 export { ClientFileSystemService as ɵc } from './lib/services/pure/client-filesystem.service';

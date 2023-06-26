@@ -5,7 +5,6 @@
 }(this, (function (exports, i0, common, forms, http, operators, rxjs, path, dialog, uuid, snackBar, firebase, storage, progressBar, input, icon, collections, button, tooltip, menu, toolbar, keycodes, chips, autocomplete, formField, select, card, buttonToggle, checkbox, paginator, progressSpinner, sidenav, sort, table, tabs, expansion) { 'use strict';
 
     var path__default = 'default' in path ? path['default'] : path;
-    var firebase__default = 'default' in firebase ? firebase['default'] : firebase;
 
     /**
      * @fileoverview added by tsickle
@@ -5614,11 +5613,11 @@
         FormFileFirebaseComponent.prototype.ngOnInit = function () {
             var _this = this;
             var /** @type {?} */ app;
-            if (firebase__default.apps.length) {
-                app = firebase__default.apps[0];
+            if (firebase.apps.length) {
+                app = firebase.apps[0];
             }
             else {
-                app = firebase__default.initializeApp(this.config.firebaseConfig);
+                app = firebase.initializeApp(this.config.firebaseConfig);
             }
             this.storage = app.storage(this.currentBucketName());
             rxjs.timer(0, 1000)
@@ -5752,7 +5751,7 @@
                         case 4:
                             _a.sent();
                             uploadTask = this.storage.refFromURL(fullPath).put(fileParsed);
-                            uploadTask.on(firebase__default.storage.TaskEvent.STATE_CHANGED, {
+                            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, {
                                 next: function (snap) { return _this.onNext(snap, fullPath); },
                                 error: function (error) { return _this.onError(error); },
                                 complete: function () { return _this.onComplete(fullPath, uniqueFileName, originalFileName); }
@@ -5817,7 +5816,7 @@
                 return __generator(this, function (_a) {
                     this.ensureValueIsArray();
                     switch (snapshot.state) {
-                        case firebase__default.storage.TaskState.RUNNING: // or 'running'
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
                             file = this.value.find(function (f) { return f.bucket_path === fullPath; });
                             progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                             console.log('Upload is running', {
@@ -6018,7 +6017,7 @@
                         image.src = dataUrl;
                         return [4 /*yield*/, new Promise(function (resolve) {
                                 image.onload = function () {
-                                    resolve('');
+                                    resolve();
                                 };
                             })];
                     case 1:
@@ -7611,6 +7610,49 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes} checked by tsc
      */
+    var Interceptor = /** @class */ (function () {
+        function Interceptor() {
+            this.token = new rxjs.Subject();
+        }
+        /**
+         * @param {?} request
+         * @param {?} next
+         * @return {?}
+         */
+        Interceptor.prototype.intercept = function (request, next) {
+            if (firebase.auth().currentUser) {
+                return rxjs.from(firebase.auth().currentUser.getIdToken().then(function (token) {
+                    return request.clone({
+                        setHeaders: {
+                            authorization: "" + token
+                        }
+                    });
+                }).catch(function (err) {
+                    return request;
+                })).pipe(operators.switchMap(function (req) {
+                    return next.handle(req);
+                }));
+            }
+            else {
+                return next.handle(request);
+            }
+        };
+        return Interceptor;
+    }());
+    Interceptor.decorators = [
+        { type: i0.Injectable }
+    ];
+    /** @nocollapse */
+    Interceptor.ctorParameters = function () { return []; };
+    function Interceptor_tsickle_Closure_declarations() {
+        /** @type {?} */
+        Interceptor.prototype.token;
+    }
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes} checked by tsc
+     */
     var /** @type {?} */ declarations$1 = [
         LibMainFileManagerComponent,
         AppBreadCrumbsComponent,
@@ -7671,7 +7713,8 @@
                             deps: [common.PlatformLocation]
                         },
                         { provide: LoggerService, useClass: ConsoleLoggerService },
-                        IconUrlResolverService
+                        IconUrlResolverService,
+                        { provide: http.HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
                     ]
                 },] }
     ];
@@ -8224,6 +8267,7 @@
     exports.ɵbl = AppBtnsCancelOkComponent;
     exports.ɵbm = getBaseHref;
     exports.ɵbn = ConsoleLoggerService;
+    exports.ɵbo = Interceptor;
     exports.ɵc = ClientFileSystemService;
     exports.ɵd = LoggerService;
     exports.ɵe = IconUrlResolverService;
