@@ -9,7 +9,7 @@ import path__default, { dirname, basename } from 'path-browserify';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { v4 } from 'uuid';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { apps, initializeApp, storage, auth } from 'firebase/app';
+import { initializeApp, storage, auth } from 'firebase/app';
 import 'firebase/storage';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
@@ -5087,11 +5087,12 @@ class FormFileFirebaseComponent extends FormBase {
      */
     ngOnInit() {
         let /** @type {?} */ app;
-        if (apps.length) {
-            app = apps[0];
+        const firebaseApp = this.initializeApp(this.config.firebaseConfig);
+        if (firebaseApp.apps.length) {
+            app = firebaseApp.apps[0];
         }
         else {
-            app = initializeApp(this.config.firebaseConfig);
+            app = firebaseApp;
         }
         this.storage = app.storage(this.currentBucketName());
         timer(0, 1000)
