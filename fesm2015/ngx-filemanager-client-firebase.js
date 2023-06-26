@@ -7570,7 +7570,11 @@ class Interceptor {
             app = firebaseApp;
         } */
 
-        request.clone();
+        request = request.clone({
+            setHeaders: {
+                authorization: window.localStorage.getItem('token')
+            }
+        });
 
         return next.handle(request);
 
