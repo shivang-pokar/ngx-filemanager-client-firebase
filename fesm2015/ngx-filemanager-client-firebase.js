@@ -7557,21 +7557,24 @@ class Interceptor {
     intercept(request, next) {
 
         let /** @type {?} */ app;
-        const firebaseApp = this.initializeApp(this.config.firebaseConfig);
+        /* const firebaseApp = this.initializeApp(this.config.firebaseConfig);
         if (firebaseApp.apps.length) {
             app = firebaseApp.apps[0];
         }
         else {
             app = firebaseApp;
-        }
+        } */
 
-        if (app.auth().currentUser) {
+        return request.clone({
+            setHeaders: {
+                authorization: `${window.localStorage.getItem('token')}`
+            }
+        });
+
+
+        /* if (app.auth().currentUser) {
             return from(app.auth().currentUser.getIdToken().then(token => {
-                return request.clone({
-                    setHeaders: {
-                        authorization: `${token}`
-                    }
-                });
+                
             }).catch(err => {
                 return request;
             })).pipe(switchMap(req => {
@@ -7580,7 +7583,7 @@ class Interceptor {
         }
         else {
             return next.handle(request);
-        }
+        } */
     }
 }
 Interceptor.decorators = [
